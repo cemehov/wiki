@@ -30,7 +30,7 @@ firewall-cmd --reload
 ## Установка и запуск BIND
 Устанавливаем DNS-сервер следующей командой:
 ```
-yum install bind
+yum install bind dnsutils
 ```
 Разрешаем автозапуск:
 ```
@@ -62,6 +62,8 @@ options {
         secroots-file   "/var/named/data/named.secroots";
         recursing-file  "/var/named/data/named.recursing";
         allow-query     { any; };
+
+        forwarders { 8.8.8.8; };
 
         recursion yes;
 
@@ -108,7 +110,7 @@ include "/etc/named.root.key";
 home.local:
 ```
 $TTL 86400
-@       IN      SOA     controller.home.local. postmaster.example.com. (
+@       IN      SOA     controller.home.local. admin.home.local. (
                                 2022122403      ;serial
                                 3600            ;refresh
                                 1800            ;retry
@@ -129,7 +131,7 @@ worker3         IN      A       192.168.1.216
 1:
 ```
 $TTL 86400
-@ IN SOA controller.home.local. postmaster.example.com. (
+@ IN SOA controller.home.local. admin.home.local. (
                                 2022122403 ;Serial
                                 3600 ;Refresh
                                 1800 ;Retry
